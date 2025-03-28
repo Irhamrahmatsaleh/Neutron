@@ -15,6 +15,9 @@ class Blockchain:
         genesis_block = Block(index=0, transactions=[], previous_hash="0")
         self.chain.append(genesis_block)
 
+    def get_all_blocks(self):
+        return [block.to_dict() for block in self.chain]
+
     def get_latest_block(self) -> Block:
         return self.chain[-1]
 
@@ -62,5 +65,4 @@ class Blockchain:
                 return False
         return True
 
-# Tambahkan baris ini di bawah semua class dan fungsi
 blockchain = Blockchain()

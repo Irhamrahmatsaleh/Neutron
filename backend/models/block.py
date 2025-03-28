@@ -3,6 +3,9 @@ import json
 import time
 from typing import List, Optional
 from backend.models.transaction import Transaction
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.orm import relationship
+from backend.database.db import Base
 
 class Block:
     def __init__(self, index: int, transactions: List[Transaction], previous_hash: str, nonce: int = 0):
@@ -32,3 +35,25 @@ class Block:
             "nonce": self.nonce,
             "hash": self.hash
         }
+
+class BlockRecord(Base):
+    __tablename__ = "blocks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    index = Column(Integer)
+    timestamp = Column(Float)
+    previous_hash = Column(String)
+    nonce = Column(Integer)
+    hash = Column(String)
+    transactions = Column(String)  # sementara simpan sebagai JSON string
+
+    def to_dict(self):
+        return {
+            "index": self.index,
+            "timestamp": self.timestamp,
+            "previous_hash": self.previous_hash,
+            "nonce": self.nonce,
+            "hash": self.hash,
+            "transactions": self.transactions
+        }
+

@@ -1,7 +1,7 @@
 import time
 from typing import Optional
 from pydantic import BaseModel
-from sqlalchemy import Column, String, Float, DateTime, Integer
+from sqlalchemy import Column, String, Float, ForeignKey
 from backend.database.db import Base
 from datetime import datetime
 
@@ -21,13 +21,22 @@ class Transaction(BaseModel):
             "timestamp": self.timestamp,
         }
 
-# SQLAlchemy model untuk menyimpan transaksi ke dalam database
 class TransactionRecord(Base):
     __tablename__ = "transactions"
 
-    # id = Column(String, primary_key=True, index=True)
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    sender = Column(String)
-    recipient = Column(String)
-    amount = Column(Float)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    id = Column(String, primary_key=True, index=True)  # Bisa pakai kombinasi hash atau ID unik
+    sender = Column(String, ForeignKey("users.email"), nullable=False)
+    recipient = Column(String, ForeignKey("users.email"), nullable=False)
+    amount = Column(Float, nullable=False)
+    timestamp = Column(Float, nullable=False)  # float untuk kompatibel dengan blockchain
+    signature = Column(String, nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "sender": self.sender,
+            "recipient": self.recipient,
+            "amount": self.amount,
+            "timestamp": self.timestamp,
+            "signature": self.signature
+        }

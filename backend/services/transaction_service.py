@@ -4,6 +4,7 @@ from backend.models.user import User
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization
+from backend.models.transaction import TransactionRecord
 
 
 def sign_transaction(private_key_pem: str, message: str) -> str:
@@ -70,6 +71,27 @@ def save_transaction(tx: Transaction):
     except Exception as e:
         db.rollback()
         raise e
+    finally:
+        db.close()
+
+def save_bulk_transactions(transactions: list):
+    db = SessionLocal()
+    try:
+        for tx in transactions:
+            if tx["sender"] != "SYSTEM":  # Reward tidak disimpan sebagai tx biasa
+                record = TransactionRecord(
+                    id=f'{tx["sender"]}-{tx["recipient"]}-{tx["timestamp"]}',
+                    sender=tx["sender"],
+                    recipient=tx["recipient"],
+                    amount=tx["amount"],
+                    timestamp=tx["timestamp"],
+                    signature=tx["signature"]
+                )
+                db.add(record)
+        db.commit()
+    except Exception as e:
+        print(f"❌ Gagal simpan transaksi bulk: {e}")
+        db.rollback()
     finally:
         db.close()
 
