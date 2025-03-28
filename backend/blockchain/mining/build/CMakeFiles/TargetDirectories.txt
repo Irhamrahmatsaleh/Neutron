@@ -1,0 +1,3 @@
+C:/Users/irham/OneDrive/Desktop/neutron/backend/blockchain/mining/build/CMakeFiles/miner.dir
+C:/Users/irham/OneDrive/Desktop/neutron/backend/blockchain/mining/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/irham/OneDrive/Desktop/neutron/backend/blockchain/mining/build/CMakeFiles/ZERO_CHECK.dir

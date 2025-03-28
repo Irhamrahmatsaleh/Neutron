@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\irham\OneDrive\Desktop\neutron\backend\blockchain\mining\miner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\irham\OneDrive\Desktop\neutron\backend\blockchain\mining\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C1E96B9F-2F7F-3BB8-B1B4-BE33117E9D4B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

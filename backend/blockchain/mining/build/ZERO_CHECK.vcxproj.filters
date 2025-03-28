@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\irham\OneDrive\Desktop\neutron\backend\blockchain\mining\build\CMakeFiles\5b2e2ff724e31b3c89f003d3db4683e7\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F97DF28A-147F-3674-A855-2B8717C90C4E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
