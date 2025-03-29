@@ -17,15 +17,11 @@ from backend.models.token import TokenAsset
 from backend.models.token_transfer import TokenTransfer
 from backend.models.user import User as UserModel
 from backend.services.token_service import verify_token_action_signature
-
+from backend.services.token_service import verify_token_action_signature
 import uuid
 import time
-
-
-
-
-
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 blockchain = Blockchain()
@@ -45,6 +41,16 @@ class VerifyRequest(BaseModel):
     message: str
     signature: str
 
+# Izinkan frontend untuk akses API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to Neutron!"}
@@ -61,7 +67,11 @@ async def create_wallet():
 @app.get("/wallet/generate")
 async def generate_wallet():
     keys = generate_key_pair()
-    return keys
+    return {
+        "message": "Wallet generated!",
+        "private_key": keys["private_key"],
+        "public_key": keys["public_key"]
+    }
 
 @app.get("/wallet/balance/{email}")
 async def get_wallet_balance(email: str):
@@ -200,6 +210,16 @@ async def get_total_supply():
 async def create_token(data: dict):
     db = SessionLocal()
     try:
+        # Verifikasi signature
+        message = f"{data['creator_email']}|{data['name']}|{data['symbol']}|{data['total_supply']}"
+        valid = verify_token_action_signature(
+            sender_email=data["creator_email"],
+            message=message,
+            signature=data["signature"]
+        )
+        if not valid:
+          raise HTTPException(status_code=403, detail="Invalid signature for token creation")
+
         token = TokenAsset(
             id=str(uuid.uuid4()),
             creator_email=data["creator_email"],
